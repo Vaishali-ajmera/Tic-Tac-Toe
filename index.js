@@ -5,6 +5,8 @@ const restart = document.querySelector('#restart');
 let currentPlayer = 'X';
 let gameActive = true;
 let board = ['', '', '', '', '', '', '', '', ''];
+let roundWon = false;
+
 
 const winningConditions = [
   [0, 1, 2],
@@ -32,10 +34,13 @@ function handleSquareClick(event) {
 
 function togglePlayer() {
   currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+  if(!roundWon && board.includes('')){
+    result.textContent = `Player ${currentPlayer} turn`;
+
+  }
 }
 
 function checkResult() {
-  let roundWon = false;
   for (let i = 0; i < winningConditions.length; i++) {
     const [a, b, c] = winningConditions[i];
     if (board[a] !== '' && board[a] === board[b] && board[a] === board[c]) {
@@ -57,7 +62,8 @@ function handleRestartClick() {
   currentPlayer = 'X';
   gameActive = true;
   board = ['', '', '', '', '', '', '', '', ''];
-  result.textContent = '';
+  roundWon = false;
+  result.textContent = 'Player X turn';
   squares.forEach(square => {
     square.textContent = '';
     square.classList.remove('X', 'O');
